@@ -1,0 +1,13 @@
+{
+  "name": "hermeneus",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace hermeneus-chrisis",
+    "build": "npm run build --workspace hermeneus-chrisis",
+    "preview": "npm run preview --workspace hermeneus-chrisis"
+  }
+}

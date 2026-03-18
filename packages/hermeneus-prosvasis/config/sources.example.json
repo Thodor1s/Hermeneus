@@ -1,0 +1,25 @@
+{
+  "output_root": "packages/hermeneus-prosvasis/data",
+  "sources": [
+    {
+      "id": "homer-odyssey-demo",
+      "title": "Οδύσσεια (demo local source)",
+      "era": "archaic",
+      "language_form": "ancient-greek",
+      "kind": "primary-text",
+      "license": "verify_manually",
+      "allowed": false,
+      "citation": {
+        "work": "Οδύσσεια",
+        "author": "Όμηρος",
+        "edition": "demo"
+      },
+      "inputs": [
+        {
+          "type": "local_file",
+          "path": "packages/hermeneus-prosvasis/data/raw/odyssey-demo.txt"
+        }
+      ]
+    }
+  ]
+}
