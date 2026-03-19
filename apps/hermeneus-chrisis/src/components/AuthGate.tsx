@@ -1,6 +1,6 @@
 import { type ReactNode, useEffect, useState } from "react";
 import { onAuthStateChanged, signInWithPopup, signOut, type User } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, limit, query, where } from "firebase/firestore";
 import { accessCollection, auth, db, googleProvider } from "../lib/firebase";
 
 type AuthGateProps = {
@@ -10,17 +10,44 @@ type AuthGateProps = {
 function AccessDenied({ user }: { user: User }) {
   return (
     <section className="card">
-      <p className="eyebrow">Πρόσβαση</p>
-      <h2>Ο λογαριασμός σας δεν έχει ενεργοποιηθεί.</h2>
+      <p className="eyebrow">Access</p>
+      <h2>Your account has not been provisioned yet.</h2>
       <p>
-        Συνδεθήκατε ως <strong>{user.email}</strong>, αλλά η εγγραφή σας στο Firestore δεν έχει
-        πεδίο <code>allowed: true</code>.
+        You signed in as <strong>{user.email}</strong>, but no matching document was found in the Firestore collection{" "}
+        <code>{accessCollection}</code>.
       </p>
       <button className="secondary-button" onClick={() => void signOut(auth)}>
-        Αποσύνδεση
+        Sign out
       </button>
     </section>
   );
+}
+
+async function isProvisioned(email: string | null): Promise<boolean> {
+  if (!email) {
+    return false;
+  }
+
+  const normalizedEmail = email.trim().toLowerCase();
+  const users = collection(db, accessCollection);
+  console.log(users);
+  console.log(normalizedEmail)
+
+  const byDocumentId = await getDoc(doc(db, accessCollection, normalizedEmail));
+  console.log(byDocumentId);
+  if (byDocumentId.exists()) {
+    return true;
+  }
+
+  const byEmailField = await getDocs(query(users, where("email", "==", normalizedEmail), limit(1)));
+    console.log(byEmailField);
+  if (!byEmailField.empty) {
+    return true;
+  }
+
+  const byIdField = await getDocs(query(users, where("id", "==", normalizedEmail), limit(1)));
+      console.log(byIdField);
+  return !byIdField.empty;
 }
 
 export function AuthGate({ children }: AuthGateProps) {
@@ -42,8 +69,7 @@ export function AuthGate({ children }: AuthGateProps) {
       }
 
       try {
-        const snapshot = await getDoc(doc(db, accessCollection, nextUser.uid));
-        setAllowed(Boolean(snapshot.data()?.allowed));
+        setAllowed(await isProvisioned(nextUser.email));
       } catch (accessError) {
         setAllowed(false);
         setError(accessError instanceof Error ? accessError.message : "Unknown Firebase error");
@@ -63,16 +89,17 @@ export function AuthGate({ children }: AuthGateProps) {
     return (
       <section className="card">
         <p className="eyebrow">Hermeneus</p>
-        <h2>Έλεγχος ταυτότητας και πρόσβασης...</h2>
+        <h2>Checking identity and Firestore provisioning...</h2>
       </section>
     );
   }
 
   if (error) {
+    console.log(error)
     return (
       <section className="card">
-        <p className="eyebrow">Σφάλμα Firebase</p>
-        <h2>Η πρόσβαση δεν μπόρεσε να επιβεβαιωθεί.</h2>
+        <p className="eyebrow">Firebase Error</p>
+        <h2>Access could not be verified.</h2>
         <p>{error}</p>
       </section>
     );
@@ -81,11 +108,14 @@ export function AuthGate({ children }: AuthGateProps) {
   if (!user) {
     return (
       <section className="card">
-        <p className="eyebrow">Hermeneus Chrisis</p>
-        <h1>Ελληνικό ερευνητικό περιβάλλον γλωσσικού μοντέλου</h1>
-        <p>Η χρήση προστατεύεται με Firebase Authentication και allow-list στο Firestore.</p>
+        <p className="eyebrow">Hermeneus</p>
+        <h1>Greek research interface for provisioned users</h1>
+        <p>
+          Sign in with Google, then the app checks Firestore collection <code>{accessCollection}</code> for a matching
+          email record.
+        </p>
         <button className="primary-button" onClick={() => void handleGoogleSignIn()}>
-          Σύνδεση με Google
+          Sign in with Google
         </button>
       </section>
     );
