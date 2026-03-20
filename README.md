@@ -31,4 +31,4 @@ The project proceeds on the following methodological principles:
 
 ## Ownership
 
-The owner of this project is Theodred Bizmpianos. This is an ethical, non-commercial AI project. If you want to access the alpha or contribute to this project or fork this project, please visit the Paradimgs website and fill in the contact form as always https://paradigms.gr/home, or e-mail me at theo@paragims.gr.
+The owner of this project is Theodred Bizmpianos. This is an ethical, non-commercial AI project. If you want to access the alpha or contribute to this project or fork this project, please visit the Paradigms website and fill in the contact form as always https://paradigms.gr/home, or e-mail me at theo@paragims.gr.
