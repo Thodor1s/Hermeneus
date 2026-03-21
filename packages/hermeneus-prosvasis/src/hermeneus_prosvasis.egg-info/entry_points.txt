@@ -1,0 +1,2 @@
+[console_scripts]
+hermeneus-prosvasis = hermeneus_prosvasis.cli:main

@@ -1,0 +1,12 @@
+README.md
+pyproject.toml
+src/hermeneus_prosvasis/__init__.py
+src/hermeneus_prosvasis/__main__.py
+src/hermeneus_prosvasis/cli.py
+src/hermeneus_prosvasis/greek.py
+src/hermeneus_prosvasis/pipeline.py
+src/hermeneus_prosvasis.egg-info/PKG-INFO
+src/hermeneus_prosvasis.egg-info/SOURCES.txt
+src/hermeneus_prosvasis.egg-info/dependency_links.txt
+src/hermeneus_prosvasis.egg-info/entry_points.txt
+src/hermeneus_prosvasis.egg-info/top_level.txt

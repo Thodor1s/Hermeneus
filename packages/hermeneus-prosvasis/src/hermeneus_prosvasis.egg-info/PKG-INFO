@@ -1,0 +1,10 @@
+Metadata-Version: 2.4
+Name: hermeneus-prosvasis
+Version: 0.1.0
+Summary: Greek corpus aggregation and indexing for Hermeneus
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+
+# hermeneus-prosvasis
+
+Aggregates, normalizes, filters, and indexes legally usable Greek texts.

@@ -9,51 +9,54 @@ import koineGif from "./assets/koine.gif";
 import logo from "./assets/logo.png";
 import { AuthGate } from "./components/AuthGate";
 import { auth } from "./lib/firebase";
-import { infer, type InferenceResult } from "./lib/inference";
+import { infer, type GreekForm, type InferenceResult, type RequestType } from "./lib/inference";
 
 type ScriptSample = {
-  label: string;
+  label: GreekForm;
   period: string;
   gif: string;
   prompt: string;
 };
+
+const DEMOTIC_FORM: GreekForm = "Δημοτική";
+const greekForms: GreekForm[] = ["Αρχαϊκή", "Κλασική", "Κοινή", "Μεσαιωνική", "Καθαρεύουσα", DEMOTIC_FORM];
 
 const scriptSamples: ScriptSample[] = [
   {
     label: "Αρχαϊκή",
     period: "8ος-6ος αι. π.Χ.",
     gif: archaicGif,
-    prompt: "Δώστε σύντομη ερμηνεία μίας αρχαϊκής επιγραφής και εξηγήστε το ιστορικό της πλαίσιο.",
+    prompt: "Εντόπισε παραπομπές για αρχαϊκή επιγραφή και το ιστορικό της πλαίσιο.",
   },
   {
     label: "Κλασική",
     period: "5ος-4ος αι. π.Χ.",
     gif: classicalGif,
-    prompt: "Σε ποιο σημείο της Οδύσσειας η Αθηνά ανακόπτει τη σύγκρουση και ποια είναι η σημασία της σκηνής;",
+    prompt: "Βρες παραπομπές για τη σκηνή της Αθηνάς στην Οδύσσεια και τη σημασία της.",
   },
   {
     label: "Κοινή",
     period: "Ελληνιστική περίοδος",
     gif: koineGif,
-    prompt: "Εξηγήστε με ένα παράδειγμα πώς μεταβάλλεται η σύνταξη από την κλασική ελληνική στην Ελληνιστική Κοινή.",
+    prompt: "Δώσε παραπομπές για τη μετάβαση από την κλασική ελληνική στην Ελληνιστική Κοινή.",
   },
   {
     label: "Μεσαιωνική",
-    period: "Βυζαντική περίοδος",
+    period: "Βυζαντινή περίοδος",
     gif: byzantineGif,
-    prompt: "Συγκρίνετε τη διοικητική ορολογία της Μεσαιωνικής Ελληνικής με την πολιτική ορολογία της κλασικής ελληνικής.",
+    prompt: "Βρες χωρία για τη διοικητική ορολογία της μεσαιωνικής ελληνικής.",
   },
   {
     label: "Καθαρεύουσα",
     period: "19ος αι.",
     gif: katharevousaGif,
-    prompt: "Αποδώστε ένα σύντομο απόσπασμα καθαρεύουσας στη σύγχρονη νέα ελληνική χωρίς να χαθεί το ύφος του.",
+    prompt: "Εντόπισε παραπομπές για ύφος και σύνταξη της καθαρεύουσας.",
   },
   {
     label: "Δημοτική",
     period: "Σύγχρονη περίοδος",
     gif: demoticGif,
-    prompt: "Απαντήστε στη σύγχρονη νέα ελληνική με σαφή και τεκμηριωμένη διατύπωση για κάθε βασικό ισχυρισμό.",
+    prompt: "Ποιός ήταν ο Αριστοτέλης;",
   },
 ];
 
@@ -99,32 +102,52 @@ function ScriptChip({
   onSelect,
 }: {
   sample: ScriptSample;
-  onSelect: (prompt: string) => void;
+  onSelect: (prompt: string, form: GreekForm) => void;
 }) {
+  const enabled = sample.label === DEMOTIC_FORM;
+
   return (
-    <button className="script-chip" type="button" onClick={() => onSelect(sample.prompt)}>
+    <button
+      className={`script-chip ${enabled ? "" : "script-chip-disabled"}`.trim()}
+      type="button"
+      disabled={!enabled}
+      onClick={() => onSelect(sample.prompt, sample.label)}
+    >
       <HoverGif src={sample.gif} alt={`Δείγμα γραφής για ${sample.label}`} />
       <span className="script-chip-copy">
         <strong>{sample.label}</strong>
-        <small>{sample.period}</small>
+        <small>{enabled ? sample.period : `${sample.period} · σύντομα`}</small>
       </span>
     </button>
   );
 }
 
+const requestTypeLabels: Record<RequestType, string> = {
+  citations: "Παραπομπές",
+  interpretation: "Ερμηνεία",
+  translation: "Μετάφραση",
+};
+
 export default function App() {
   const [prompt, setPrompt] = useState("");
+  const [targetForm, setTargetForm] = useState<GreekForm>(DEMOTIC_FORM);
   const [result, setResult] = useState<InferenceResult | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleSubmit() {
+  async function handleSubmit(requestType: RequestType) {
     setBusy(true);
     setError(null);
     try {
-      setResult(await infer(prompt));
+      setResult(
+        await infer({
+          prompt,
+          requestType,
+          targetForm: requestType === "translation" ? targetForm : null,
+        }),
+      );
     } catch (submissionError) {
-      setError(submissionError instanceof Error ? submissionError.message : "Άγνωστο σφάλμα κατά την επεξεργασία του αιτήματος");
+      setError(submissionError instanceof Error ? submissionError.message : "Άγνωστο σφάλμα κατά την αναζήτηση παραπομπών.");
     } finally {
       setBusy(false);
     }
@@ -145,8 +168,8 @@ export default function App() {
                     <img src={logo} alt="Λογότυπο του Hermeneus" />
                   </span>
                   <div className="brand-copy">
-                    <h1 className="brand-title">ἑρμηνεύς (Hermeneus)</h1>
-                    <p className="brand-subtitle">Διεπαφή ερευνητικής ανάλυσης της ελληνικής γλώσσας</p>
+                    <h1 className="brand-title">Hermeneus</h1>
+                    <p className="brand-subtitle">Το ελληνόγλωσσο RAG </p>
                   </div>
                 </div>
                 <div className="session-pill">
@@ -159,34 +182,40 @@ export default function App() {
 
               <div className="hero-grid">
                 <div className="hero-copy">
-                  <p className="eyebrow">Από τα έπη του Ομήρου έως τα Νέα ελληνικά</p>
-                  <h2>Ερμηνεία και μετάφραση</h2>
+                  <p className="eyebrow">Citations needed</p>
+                  <h2>Το ελληνικό σύστημα αναζήτησης παραπομπών</h2>
                   <p className="lead">
-                    Η διεπαφή οργανώνει το ερώτημα, την απάντηση και τις παραπομπές με έμφαση στην ελληνική
-                    γλώσσα, στις ιστορικές περιόδους της και στην ακριβή τεκμηρίωση.
+                    Το εργαλείο Hermeneus λειτουργεί ως μηχανή αναζήτησης τεκμηρίων. Κάθε λειτουργία επιστρέφει παραπομπές από το διαθέσιμο ευρετήριο χωρίς να παράγει ελεύθερο κείμενο. Η ερμηνεία και η μετάφραση αντιμετωπίζονται ως λειτουργίες αναζήτησης χωρίων και όχι ως ελεύθερη παραγωγή κειμένου.
                   </p>
 
                   <div className="hero-metrics">
                     <article>
-                      <span>6</span>
-                      <p>γλωσσικές περίοδοι ως σημεία ταχείας εκκίνησης</p>
+                      <span>3</span>
+                      <p>λειτουργίες αναζήτησης: παραπομπές, ερμηνεία, μετάφραση</p>
                     </article>
                     <article>
-                      <span>GR</span>
-                      <p>σχεδιασμένο για ελληνική εισαγωγή και ερευνητικά ερωτήματα</p>
+                      <span>6</span>
+                      <p>μορφές της ελληνικής γλώσσας για στοχευμένη μετάφραση</p>
                     </article>
                     <article>
                       <span>RAG</span>
-                      <p>έτοιμο για απαντήσεις με χωρία και παραπομπές</p>
+                      <p>αναζήτηση πηγών τεκμηρίωσης συμβατή με μοντέλα AI</p>
                     </article>
                   </div>
                 </div>
 
                 <aside className="hero-aside">
-                  <p className="eyebrow">Περίοδοι της Ελληνικής Γλώσσας</p>
+                  <p className="eyebrow">Μορφές Ελληνικής Γλώσσας</p>
                   <div className="script-grid">
                     {scriptSamples.map((sample) => (
-                      <ScriptChip key={sample.label} sample={sample} onSelect={setPrompt} />
+                      <ScriptChip
+                        key={sample.label}
+                        sample={sample}
+                        onSelect={(nextPrompt, form) => {
+                          setPrompt(nextPrompt);
+                          setTargetForm(form);
+                        }}
+                      />
                     ))}
                   </div>
                 </aside>
@@ -197,9 +226,8 @@ export default function App() {
               <div className="panel-header">
                 <div>
                   <p className="eyebrow">Αίτημα</p>
-                  <h2>Ερώτημα ή κείμενο προς ερμηνεία</h2>
+                  <h2>Ερώτημα ή κείμενο προς αναζήτηση παραπομπών</h2>
                 </div>
-                <p className="panel-note"></p>
               </div>
 
               <label className="field">
@@ -207,16 +235,37 @@ export default function App() {
                 <textarea
                   value={prompt}
                   onChange={(event) => setPrompt(event.target.value)}
-                  placeholder="Γράψτε στα ελληνικά. Π.χ. Πώς μεταβάλλεται η γλώσσα από την αττική πεζογραφία έως τη σύγχρονη χρήση;"
+                  placeholder="Γράψτε στα ελληνικά. Π.χ. Βρες παραπομπές για τη γλώσσα της Οδύσσειας ή για τη χρήση της καθαρεύουσας."
                   rows={10}
                 />
               </label>
 
-              <div className="actions">
-                <button className="primary-button" disabled={busy || !prompt.trim()} onClick={() => void handleSubmit()}>
-                  {busy ? "Επεξεργασία..." : "Υποβολή αιτήματος"}
+              <div className="request-toolbar">
+                <div className="translation-picker">
+                  <label className="field compact-field">
+                    <span>Μετάφραση σε</span>
+                    <select value={targetForm} onChange={(event) => setTargetForm(event.target.value as GreekForm)}>
+                      {greekForms.map((form) => (
+                        <option key={form} value={form} disabled={form !== DEMOTIC_FORM}>
+                          {form}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </div>
+                <p className="action-hint">Κάθε λειτουργία επιστρέφει μόνο παραπομπές. Προς το παρόν είναι ενεργή μόνο η Δημοτική.</p>
+              </div>
+
+              <div className="actions action-stack">
+                <button className="primary-button mode-button" disabled={busy || !prompt.trim()} onClick={() => void handleSubmit("citations")}>
+                  {busy ? "Αναζήτηση..." : "Παραπομπές"}
                 </button>
-                <p className="action-hint">Τα λευκά κουμπιά των περιόδων συμπληρώνουν το πεδίο με έτοιμα ερωτήματα.</p>
+                <button className="primary-button mode-button" disabled={busy || !prompt.trim()} onClick={() => void handleSubmit("interpretation")}>
+                  {busy ? "Αναζήτηση..." : "Ερμηνεία"}
+                </button>
+                <button className="primary-button mode-button translation-button" disabled={busy || !prompt.trim()} onClick={() => void handleSubmit("translation")}>
+                  {busy ? "Αναζήτηση..." : `Μετάφραση σε ${targetForm}`}
+                </button>
               </div>
 
               {error ? <p className="error">{error}</p> : null}
@@ -225,14 +274,25 @@ export default function App() {
             <section className="panel result-panel">
               <div className="panel-header">
                 <div>
-                  <p className="eyebrow">Απάντηση</p>
-                  <h2>{result ? `Λειτουργία: ${result.mode}` : "Η απάντηση θα εμφανιστεί εδώ"}</h2>
+                  <p className="eyebrow">Αποτέλεσμα</p>
+                  <h2>{result ? `Λειτουργία: ${requestTypeLabels[result.requestType]}` : "Οι παραπομπές θα εμφανιστούν εδώ"}</h2>
                 </div>
-                <div className="result-status">{result ? "Έτοιμη" : "Σε αναμονή αιτήματος"}</div>
+                <div className="result-status">{result ? "Έτοιμο" : "Σε αναμονή αιτήματος"}</div>
               </div>
 
-              <div className="response-box">
-                {result?.answer || "Υποβάλετε ένα ερώτημα στα ελληνικά, ώστε να εμφανιστεί εδώ η απάντηση του μοντέλου."}
+              <div className="request-summary">
+                <article className="summary-card">
+                  <span>Τύπος</span>
+                  <strong>{result ? requestTypeLabels[result.requestType] : "Χωρίς αίτημα"}</strong>
+                </article>
+                <article className="summary-card">
+                  <span>Στόχος</span>
+                  <strong>{result?.targetForm ?? "Δεν ορίστηκε"}</strong>
+                </article>
+                <article className="summary-card">
+                  <span>Engine</span>
+                  <strong>{result?.mode ?? "stub"}</strong>
+                </article>
               </div>
 
               <div className="citations">
@@ -248,7 +308,7 @@ export default function App() {
                     </article>
                   ))
                 ) : (
-                  <p className="empty-state">Δεν υπάρχουν ακόμη παραπομπές.</p>
+                  <p className="empty-state">Υποβάλετε αίτημα για να εμφανιστούν μόνο παραπομπές από το corpus.</p>
                 )}
               </div>
             </section>

@@ -1,0 +1,572 @@
+{
+  "output_root": "../data",
+  "sources": [
+    {
+      "id": "elwiki-ellada",
+      "title": "Ελλάδα (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Ελλάδα",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Ελλάδα"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-athens",
+      "title": "Αθήνα (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Αθήνα",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Αθήνα"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-thessaloniki",
+      "title": "Θεσσαλονίκη (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Θεσσαλονίκη",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Θεσσαλονίκη"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-kriti",
+      "title": "Κρήτη (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Κρήτη",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Κρήτη"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-kypros",
+      "title": "Κύπρος (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Κύπρος",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Κύπρος"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-megas-alexandros",
+      "title": "Μέγας Αλέξανδρος (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Μέγας Αλέξανδρος",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Μέγας Αλέξανδρος"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-sokratis",
+      "title": "Σωκράτης (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Σωκράτης",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Σωκράτης"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-plato",
+      "title": "Πλάτων (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Πλάτων",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Πλάτων"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-aristotelis",
+      "title": "Αριστοτέλης (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Αριστοτέλης",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Αριστοτέλης"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-irodotos",
+      "title": "Ηρόδοτος (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Ηρόδοτος",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Ηρόδοτος"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-thoukydidis",
+      "title": "Θουκυδίδης (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Θουκυδίδης",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Θουκυδίδης"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-homeros",
+      "title": "Όμηρος (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Όμηρος",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Όμηρος"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-iliada",
+      "title": "Ιλιάδα (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Ιλιάδα",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Ιλιάδα"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-odyssey",
+      "title": "Οδύσσεια (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Οδύσσεια",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Οδύσσεια"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-mythologia",
+      "title": "Ελληνική μυθολογία (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Ελληνική μυθολογία",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Ελληνική μυθολογία"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-parthenonas",
+      "title": "Παρθενώνας (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Παρθενώνας",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Παρθενώνας"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-akropoli-athinon",
+      "title": "Ακρόπολη Αθηνών (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Ακρόπολη Αθηνών",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Ακρόπολη Αθηνών"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-arxaia-elliniki-glossa",
+      "title": "Αρχαία ελληνική γλώσσα (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Αρχαία ελληνική γλώσσα",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Αρχαία ελληνική γλώσσα"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-nea-elliniki-glossa",
+      "title": "Νέα ελληνική γλώσσα (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Νέα ελληνική γλώσσα",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Νέα ελληνική γλώσσα"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-elliniko-alfavito",
+      "title": "Ελληνικό αλφάβητο (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Ελληνικό αλφάβητο",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Ελληνικό αλφάβητο"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-mathimatika",
+      "title": "Μαθηματικά (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Μαθηματικά",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Μαθηματικά"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-astronomia",
+      "title": "Αστρονομία (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Αστρονομία",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Αστρονομία"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-fysiki",
+      "title": "Φυσική (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Φυσική",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Φυσική"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-viologia",
+      "title": "Βιολογία (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Βιολογία",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Βιολογία"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-iatriki",
+      "title": "Ιατρική (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Ιατρική",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Ιατρική"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-filosofia",
+      "title": "Φιλοσοφία (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Φιλοσοφία",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Φιλοσοφία"
+        }
+      ]
+    },
+    {
+      "id": "elwiki-istoria",
+      "title": "Ιστορία (Greek Wikipedia)",
+      "era": "modern",
+      "language_form": "modern-greek",
+      "kind": "reference-article",
+      "license": "CC BY-SA; attribution required",
+      "allowed": true,
+      "citation": {
+        "work": "Ιστορία",
+        "author": "Greek Wikipedia contributors",
+        "edition": "Greek Wikipedia API extract"
+      },
+      "inputs": [
+        {
+          "type": "mediawiki_extract",
+          "api_url": "https://el.wikipedia.org/w/api.php",
+          "page_title": "Ιστορία"
+        }
+      ]
+    }
+  ]
+}

@@ -1,39 +1,66 @@
-import { bilingualDecline, isMostlyGreek } from "./greek";
+import { isMostlyGreek } from "./greek";
 
 export type Citation = {
   label: string;
   excerpt: string;
 };
 
-export type InferenceResult = {
-  answer: string;
-  citations: Citation[];
-  mode: "stub" | "api" | "browser";
+export type RequestType = "citations" | "interpretation" | "translation";
+
+export type GreekForm =
+  | "Αρχαϊκή"
+  | "Κλασική"
+  | "Κοινή"
+  | "Μεσαιωνική"
+  | "Καθαρεύουσα"
+  | "Δημοτική";
+
+export type InferenceRequest = {
+  prompt: string;
+  requestType: RequestType;
+  targetForm?: GreekForm | null;
 };
 
-async function runStub(prompt: string): Promise<InferenceResult> {
-  if (!isMostlyGreek(prompt)) {
-    return {
-      answer: bilingualDecline("English or another non-Greek language"),
-      citations: [],
-      mode: "stub",
-    };
+export type InferenceResult = {
+  citations: Citation[];
+  mode: "stub" | "api" | "browser";
+  requestType: RequestType;
+  targetForm?: GreekForm | null;
+};
+
+function buildStubCitations(request: InferenceRequest): Citation[] {
+  const suffix = request.requestType === "translation" && request.targetForm ? ` προς ${request.targetForm}` : "";
+
+  return [
+    {
+      label: `Αίτημα ${request.requestType}${suffix}`,
+      excerpt: "Το σύστημα επιστρέφει μόνο παραπομπές. Το παραγωγικό retrieval endpoint δεν έχει συνδεθεί ακόμη.",
+    },
+    {
+      label: "Πηγή corpus",
+      excerpt: "Συνδέστε εδώ το πραγματικό χωρίο από το ευρετήριο του corpus και το passage_id από το hermeneus-genesis.",
+    },
+    {
+      label: "Σημείωση διεπαφής",
+      excerpt: "Η ερμηνεία και η μετάφραση αντιμετωπίζονται ως λειτουργίες αναζήτησης χωρίων και όχι ως ελεύθερη παραγωγή κειμένου.",
+    },
+  ];
+}
+
+async function runStub(request: InferenceRequest): Promise<InferenceResult> {
+  if (!isMostlyGreek(request.prompt)) {
+    throw new Error("Το αίτημα πρέπει να δοθεί στα ελληνικά.");
   }
 
   return {
-    answer:
-      "Η διεπαφή είναι έτοιμη, αλλά το παραγωγικό μοντέλο δεν έχει συνδεθεί ακόμη. Για αξιόπιστες παραπομπές, το επόμενο βήμα είναι να συνδεθεί retrieval index από το hermeneus-prosvasis και μοντέλο από το hermeneus-genesis.",
-    citations: [
-      {
-        label: "Demo citation",
-        excerpt: "Συνδέστε εδώ το πραγματικό χωρίο από το ευρετήριο του corpus.",
-      },
-    ],
+    citations: buildStubCitations(request),
     mode: "stub",
+    requestType: request.requestType,
+    targetForm: request.targetForm ?? null,
   };
 }
 
-async function runApi(prompt: string): Promise<InferenceResult> {
+async function runApi(request: InferenceRequest): Promise<InferenceResult> {
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   if (!baseUrl) {
     throw new Error("Missing VITE_API_BASE_URL for API inference mode.");
@@ -44,7 +71,7 @@ async function runApi(prompt: string): Promise<InferenceResult> {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ prompt }),
+    body: JSON.stringify(request),
   });
 
   if (!response.ok) {
@@ -52,39 +79,41 @@ async function runApi(prompt: string): Promise<InferenceResult> {
   }
 
   const data = (await response.json()) as InferenceResult;
-  return { ...data, mode: "api" };
-}
-
-async function runBrowser(prompt: string): Promise<InferenceResult> {
-  if (!isMostlyGreek(prompt)) {
-    return {
-      answer: bilingualDecline("English or another non-Greek language"),
-      citations: [],
-      mode: "browser",
-    };
-  }
-
   return {
-    answer:
-      "Η λειτουργία browser inference έχει προβλεφθεί αρχιτεκτονικά, αλλά χρειάζεται μικρό ποσοτικοποιημένο μοντέλο και WebGPU runtime όπως WebLLM ή Transformers.js για να ενεργοποιηθεί.",
-    citations: [
-      {
-        label: "Browser mode note",
-        excerpt: "Χρησιμοποιήστε μικρό checkpoint και εξωτερικό retrieval για ακριβείς παραπομπές.",
-      },
-    ],
-    mode: "browser",
+    ...data,
+    mode: "api",
+    requestType: data.requestType ?? request.requestType,
+    targetForm: data.targetForm ?? request.targetForm ?? null,
   };
 }
 
-export async function infer(prompt: string): Promise<InferenceResult> {
+async function runBrowser(request: InferenceRequest): Promise<InferenceResult> {
+  if (!isMostlyGreek(request.prompt)) {
+    throw new Error("Το αίτημα πρέπει να δοθεί στα ελληνικά.");
+  }
+
+  return {
+    citations: [
+      {
+        label: "Browser mode note",
+        excerpt:
+          "Η λειτουργία browser inference δεν είναι ακόμη συνδεδεμένη. Για ακριβείς παραπομπές χρειάζεται εξωτερικό retrieval API.",
+      },
+    ],
+    mode: "browser",
+    requestType: request.requestType,
+    targetForm: request.targetForm ?? null,
+  };
+}
+
+export async function infer(request: InferenceRequest): Promise<InferenceResult> {
   const mode = (import.meta.env.VITE_INFERENCE_MODE || "stub") as "stub" | "api" | "browser";
 
   if (mode === "api") {
-    return runApi(prompt);
+    return runApi(request);
   }
   if (mode === "browser") {
-    return runBrowser(prompt);
+    return runBrowser(request);
   }
-  return runStub(prompt);
+  return runStub(request);
 }

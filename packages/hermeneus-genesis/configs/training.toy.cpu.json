@@ -1,0 +1,12 @@
+{
+  "block_size": 128,
+  "batch_size": 4,
+  "embed_dim": 128,
+  "num_heads": 4,
+  "num_layers": 2,
+  "dropout": 0.1,
+  "learning_rate": 0.0003,
+  "steps": 300,
+  "eval_interval": 50,
+  "device": "cpu"
+}

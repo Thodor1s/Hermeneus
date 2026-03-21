@@ -1,0 +1,2 @@
+[console_scripts]
+hermeneus-genesis = hermeneus_genesis.cli:main

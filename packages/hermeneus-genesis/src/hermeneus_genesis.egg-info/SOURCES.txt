@@ -1,0 +1,13 @@
+README.md
+pyproject.toml
+src/hermeneus_genesis/__init__.py
+src/hermeneus_genesis/__main__.py
+src/hermeneus_genesis/cli.py
+src/hermeneus_genesis/greek_guard.py
+src/hermeneus_genesis/retrieval.py
+src/hermeneus_genesis/training.py
+src/hermeneus_genesis.egg-info/PKG-INFO
+src/hermeneus_genesis.egg-info/SOURCES.txt
+src/hermeneus_genesis.egg-info/dependency_links.txt
+src/hermeneus_genesis.egg-info/entry_points.txt
+src/hermeneus_genesis.egg-info/top_level.txt
