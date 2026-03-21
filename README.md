@@ -1,6 +1,6 @@
 # Hermeneus
 
-Hermeneus is an informal project concerned with the construction of a Greek-language large language model trained from the ground up on a diachronic corpus of Greek texts. Its principal aim is the study and computational treatment of Greek across historical periods, from archaic alphabetic Greek to the modern language, under legal, ethical, and philological constraints.
+Hermeneus is an informal project concerned with the construction of a Greek-language large language references model trained from the ground up on a diachronic corpus of Greek texts. Its principal aim is the study and computational treatment of Greek across historical periods, from archaic alphabetic Greek to the modern language, under legal, ethical, and philological constraints. The goal is to provide the tool as a reference identifier, and to use it as an augmentation to increase the capabilities of existing or new LLM pipelines as an RAG model for Greek prompts. 
 
 The project is organised into three components:
 
